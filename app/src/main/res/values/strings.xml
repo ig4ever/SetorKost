@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">Setor Kost</string>
+    <string name="Title">SetorKost</string>
+    <string name="TitleContentDescription">This is logo of the title</string>
+    <string name="HintUsername">Username / Email Address</string>
+    <string name="HintPassword">Password</string>
+    <string name="ButtonLogin">Log In</string>
+    <string name="ButtonLoginGoogle">Log in melalui Google</string>
+    <string name="AskAccount">Belum punya akun?</string>
+    <string name="SignUp">Daftar Sekarang</string>
+    <string name="ForgotPassword">Lupa Password?</string>
 </resources>
