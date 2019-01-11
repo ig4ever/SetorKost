@@ -20,16 +20,6 @@
         app:layout_editor_absoluteY="58dp"
         android:contentDescription="@string/TitleContentDescription" />
 
-    <ImageView
-        android:id="@+id/logo_person"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/logo_title"
-        app:layout_editor_absoluteY="58dp"
-        android:contentDescription="@string/TitleContentDescription" />
-
     <EditText
         android:id="@+id/edit_text_username"
         android:layout_width="match_parent"
