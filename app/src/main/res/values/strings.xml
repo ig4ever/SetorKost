@@ -14,4 +14,14 @@
     <string name="Password">Password</string>
     <string name="PasswordBaru">Password Baru</string>
     <string name="UbahPassword">Ubah Password</string>
+    <string name="MenuKamar">Menu Kamar</string>
+    <string name="MenuPenghuni">Menu Penghuni</string>
+    <string name="MenuSetoran">Menu Setoran</string>
+    <string name="Kamar">Kamar</string>
+    <string name="Penghuni">Penghuni</string>
+    <string name="Setoran">Setoran</string>
+    <string name="FilterRumah">Filter tipe rumah</string>
+    <string name="FilterNomorKamar">Filter nomor kamar</string>
+    <string name="FilterNamaPenghuniKamar">Filter nama penghuni/kamar</string>
+    <string name="FilterTanggal">Filter tanggal</string>
 </resources>
