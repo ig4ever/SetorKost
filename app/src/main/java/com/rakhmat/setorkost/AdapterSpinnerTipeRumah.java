@@ -53,8 +53,9 @@ public class AdapterSpinnerTipeRumah {
             public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
                 TextView tv = (TextView) v;
+                int dp = 10;
                 float scale = v.getResources().getDisplayMetrics().density;
-                int dpAsPixels = (int) (10*scale + 0.5f);
+                int dpAsPixels = (int) (dp*scale + 0.5f);
                 tv.setPadding(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels);
 
                 if (position == 0)

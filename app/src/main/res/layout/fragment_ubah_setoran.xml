@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".UbahSetoranFragment">
+
+    <TextView
+        android:id="@+id/text_view_tipe_rumah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"
+        android:text="Tipe Rumah      :"/>
+
+    <TextView
+        android:id="@+id/value_tipe_rumah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/text_view_tipe_rumah"
+        app:layout_constraintTop_toTopOf="@+id/text_view_tipe_rumah"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_tipe_rumah"
+        android:layout_margin="14dp"
+        android:text="Rumah 40C"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/text_view_nomor_kamar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="@+id/text_view_tipe_rumah"
+        app:layout_constraintLeft_toLeftOf="@+id/text_view_tipe_rumah"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_tipe_rumah"
+        android:layout_margin="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"
+        android:text="Nomor Kamar  :"/>
+
+    <TextView
+        android:id="@+id/value_nomor_kamar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/text_view_nomor_kamar"
+        app:layout_constraintTop_toTopOf="@+id/text_view_nomor_kamar"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_nomor_kamar"
+        android:layout_margin="14dp"
+        android:text="Kamar 1"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/text_view_nama_penghuni"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="@+id/text_view_nomor_kamar"
+        app:layout_constraintLeft_toLeftOf="@+id/text_view_nomor_kamar"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_nomor_kamar"
+        android:layout_margin="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"
+        android:text="Nama                :"/>
+
+    <TextView
+        android:id="@+id/value_nama_penghuni"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/text_view_nama_penghuni"
+        app:layout_constraintTop_toTopOf="@+id/text_view_nama_penghuni"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_nama_penghuni"
+        android:layout_margin="14dp"
+        android:text="Saepul"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/text_view_biaya_tagihan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="@+id/text_view_nama_penghuni"
+        app:layout_constraintLeft_toLeftOf="@+id/text_view_nama_penghuni"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_nama_penghuni"
+        android:layout_margin="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"
+        android:text="Biaya Tagihan   :"/>
+
+    <TextView
+        android:id="@+id/value_biaya_tagihan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/text_view_biaya_tagihan"
+        app:layout_constraintTop_toTopOf="@+id/text_view_biaya_tagihan"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_biaya_tagihan"
+        android:layout_margin="14dp"
+        android:text="Rp 350.000"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/text_view_tanggal_setor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="@+id/text_view_biaya_tagihan"
+        app:layout_constraintLeft_toLeftOf="@+id/text_view_biaya_tagihan"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_biaya_tagihan"
+        android:layout_margin="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"
+        android:text="Tgl Bayar           :"/>
+
+    <EditText
+        android:id="@+id/edit_text_tanggal_setor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="14dp"
+        android:fontFamily="@font/roboto"
+        android:hint="Pilih Tanggal"
+        android:padding="14dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_tanggal_setor"
+        app:layout_constraintLeft_toRightOf="@+id/text_view_tanggal_setor"
+        app:layout_constraintTop_toTopOf="@+id/text_view_tanggal_setor"
+        android:drawableEnd="@drawable/ic_date_range_black_24dp_invisible"
+        android:drawablePadding="56dp"/>
+
+    <Button
+        android:id="@+id/button_konfirmasi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="14dp"
+        android:background="@drawable/button_login_regular"
+        android:text="Konfirmasi"
+        android:textColor="#FFFFFF"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_tanggal_setor"
+        app:layout_constraintLeft_toLeftOf="@+id/edit_text_tanggal_setor"
+        app:layout_constraintRight_toRightOf="@+id/edit_text_tanggal_setor" />
+
+</android.support.constraint.ConstraintLayout>

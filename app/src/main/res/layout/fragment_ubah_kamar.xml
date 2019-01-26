@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".UbahKamarFragment">
+
+    <EditText
+        android:id="@+id/edit_text_tipe_rumah"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edit_text_background"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="14dp"
+        android:padding="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"
+        android:hint="Tipe Rumah"/>
+
+    <EditText
+        android:id="@+id/edit_text_nomor_kamar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edit_text_background"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_tipe_rumah"
+        android:layout_margin="14dp"
+        android:padding="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"
+        android:hint="Nomor Kamar"/>
+
+    <EditText
+        android:id="@+id/edit_text_harga_kamar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edit_text_background"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_nomor_kamar"
+        android:layout_margin="14dp"
+        android:padding="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"
+        android:hint="Harga Kamar"/>
+
+    <Button
+        android:id="@+id/button_ubah"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="14dp"
+        android:background="@drawable/button_login_regular"
+        android:text="Ubah"
+        android:textColor="#FFFFFF"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_harga_kamar"
+        app:layout_constraintLeft_toLeftOf="@+id/edit_text_harga_kamar"
+        app:layout_constraintRight_toRightOf="@+id/edit_text_harga_kamar" />
+
+</android.support.constraint.ConstraintLayout>

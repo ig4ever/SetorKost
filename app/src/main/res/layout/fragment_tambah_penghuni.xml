@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TambahPenghuniFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:id="@+id/edit_text_nama_penghuni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edit_text_background"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="14dp"
+        android:padding="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"
+        android:hint="Nama"/>
+
+    <EditText
+        android:id="@+id/edit_text_umur_penghuni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edit_text_background"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_nama_penghuni"
+        android:layout_margin="14dp"
+        android:padding="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"
+        android:hint="Umur"/>
+
+    <EditText
+        android:id="@+id/edit_text_pekerjaan_penghuni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edit_text_background"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_umur_penghuni"
+        android:layout_margin="14dp"
+        android:padding="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"
+        android:hint="Pekerjaan"/>
+
+    <Spinner
+        android:id="@+id/spinner_nomor_kamar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edit_text_background"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_pekerjaan_penghuni"
+        android:layout_margin="14dp"
+        android:padding="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/edit_text_tanggal_masuk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edit_text_background"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_nomor_kamar"
+        android:layout_margin="14dp"
+        android:padding="14dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="16sp"
+        android:hint="Tanggal Masuk"/>
+
+    <Button
+        android:id="@+id/button_tambah"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="14dp"
+        android:background="@drawable/button_login_regular"
+        android:text="Tambah"
+        android:textColor="#FFFFFF"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_tanggal_masuk"
+        app:layout_constraintLeft_toLeftOf="@+id/edit_text_tanggal_masuk"
+        app:layout_constraintRight_toRightOf="@+id/edit_text_tanggal_masuk" />
+
+</android.support.constraint.ConstraintLayout>
