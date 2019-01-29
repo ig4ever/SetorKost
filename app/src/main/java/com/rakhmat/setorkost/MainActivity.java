@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if (fragment != null) {
             final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.frame_container, fragment);
-            transaction.addToBackStack(null);
+//            transaction.addToBackStack(null);
             transaction.commit();
             return true;
         }

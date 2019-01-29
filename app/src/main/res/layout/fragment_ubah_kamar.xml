@@ -6,8 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UbahKamarFragment">
 
-    <EditText
-        android:id="@+id/edit_text_tipe_rumah"
+    <AutoCompleteTextView
+        android:id="@+id/auto_complete_tipe_rumah"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_edit_text_background"
@@ -18,6 +18,7 @@
         android:padding="14dp"
         android:fontFamily="@font/roboto"
         android:textSize="16sp"
+        android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
         android:hint="Tipe Rumah"/>
 
     <EditText
@@ -27,7 +28,7 @@
         android:background="@drawable/custom_edit_text_background"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_tipe_rumah"
+        app:layout_constraintTop_toBottomOf="@+id/auto_complete_tipe_rumah"
         android:layout_margin="14dp"
         android:padding="14dp"
         android:fontFamily="@font/roboto"

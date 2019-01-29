@@ -86,11 +86,10 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_penghuni"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/item_row_kamar"
+        android:layout_height="0dp"
         android:layout_margin="12dp"
+        tools:listitem="@layout/item_row_penghuni"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_filter_nama_penghuni_atau_nomor_kamar"
-        app:layout_constraintLeft_toLeftOf="@+id/edit_text_filter_nama_penghuni_atau_nomor_kamar"
-        app:layout_constraintRight_toRightOf="@+id/edit_text_filter_nama_penghuni_atau_nomor_kamar"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>
