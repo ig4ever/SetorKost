@@ -1,4 +1,4 @@
-package com.rakhmat.setorkost;
+package com.rakhmat.setorkost.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,6 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.rakhmat.setorkost.AdapterSpinnerTipeRumah;
+import com.rakhmat.setorkost.adapters.ListPenghuniAdapter;
+import com.rakhmat.setorkost.model.Penghuni;
+import com.rakhmat.setorkost.model.PenghuniData;
+import com.rakhmat.setorkost.R;
+import com.rakhmat.setorkost.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
 

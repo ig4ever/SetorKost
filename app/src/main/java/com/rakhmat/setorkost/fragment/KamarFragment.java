@@ -1,0 +1,60 @@
+package com.rakhmat.setorkost.fragment;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.rakhmat.setorkost.AdapterSpinnerTipeRumah;
+import com.rakhmat.setorkost.model.Kamar;
+import com.rakhmat.setorkost.adapters.ListKamarAdapter;
+import com.rakhmat.setorkost.R;
+import com.rakhmat.setorkost.SimpleDividerItemDecoration;
+import com.rakhmat.setorkost.realm.RealmHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
+public class KamarFragment extends Fragment {
+    private List<Kamar> kamar = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private Realm realm;
+    private RealmHelper realmHelper;
+    private Context context;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_kamar, container, false);
+        context = view.getContext();
+
+        //Realm Setup
+        RealmConfiguration configuration = new RealmConfiguration.Builder().build();
+        realm = Realm.getInstance(configuration);
+        realmHelper = new RealmHelper(realm);
+        kamar = realmHelper.getAllKamar();
+
+        recyclerView = view.findViewById(R.id.rv_kamar);
+        AdapterSpinnerTipeRumah.getInstance().adapterSpinnerFilterTipeRumah(view);
+
+        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(context));
+        recyclerView.setHasFixedSize(true);
+        showRecyclerList();
+
+        return view;
+    }
+
+    private void showRecyclerList(){
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        ListKamarAdapter listKamarAdapter = new ListKamarAdapter(context, kamar);
+        recyclerView.setAdapter(listKamarAdapter);
+    }
+}

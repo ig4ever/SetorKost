@@ -1,4 +1,4 @@
-package com.rakhmat.setorkost;
+package com.rakhmat.setorkost.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,22 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.rakhmat.setorkost.model.Kamar;
+import com.rakhmat.setorkost.R;
+
 import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.Realm;
 
 public class ListKamarAdapter extends RecyclerView.Adapter<ListKamarAdapter.CategoryViewHolder> {
     private Context context;
-    private ArrayList<Kamar> listKamar;
+    private List<Kamar> kamar;
 
-    public ListKamarAdapter(Context context) {
+    public ListKamarAdapter(Context context, List<Kamar> kamar) {
         this.context = context;
-    }
-
-    public ArrayList<Kamar> getListKamar() {
-        return listKamar;
-    }
-
-    public void setListKamar(ArrayList<Kamar> listKamar) {
-        this.listKamar = listKamar;
+        this.kamar = kamar;
     }
 
     @NonNull
@@ -35,15 +34,15 @@ public class ListKamarAdapter extends RecyclerView.Adapter<ListKamarAdapter.Cate
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        holder.tvTipeRumah.setText(getListKamar().get(position).getTipeKamar());
-        holder.tvNomorKamar.setText(getListKamar().get(position).getNomorKamar());
-        holder.tvHargaKamar.setText(getListKamar().get(position).getHargaKamar());
-
+        final Kamar model = kamar.get(position);
+        holder.tvTipeRumah.setText(model.getTipeKamar());
+        holder.tvNomorKamar.setText(model.getNomorKamar());
+        holder.tvHargaKamar.setText(model.getHargaKamar());
     }
 
     @Override
     public int getItemCount() {
-        return getListKamar().size();
+        return kamar.size();
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {

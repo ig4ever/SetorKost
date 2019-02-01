@@ -1,4 +1,4 @@
-package com.rakhmat.setorkost;
+package com.rakhmat.setorkost.model;
 
 import java.util.ArrayList;
 

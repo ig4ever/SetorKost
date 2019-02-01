@@ -1,7 +1,21 @@
-package com.rakhmat.setorkost;
+package com.rakhmat.setorkost.model;
 
-public class Kamar {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class Kamar extends RealmObject {
+    @PrimaryKey
+    private int id;
+
     private String tipeKamar, nomorKamar, hargaKamar;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTipeKamar() {
         return tipeKamar;

@@ -1,5 +1,4 @@
-package com.rakhmat.setorkost;
-
+package com.rakhmat.setorkost.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,23 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rakhmat.setorkost.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class TambahPenghuniFragment extends Fragment {
-
-
-    public TambahPenghuniFragment() {
-        // Required empty public constructor
-    }
-
-
+public class TambahKamarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tambah_penghuni, container, false);
+        return inflater.inflate(R.layout.fragment_tambah_kamar, container, false);
     }
-
 }
