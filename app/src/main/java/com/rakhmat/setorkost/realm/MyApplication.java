@@ -14,7 +14,14 @@ public class MyApplication extends Application {
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .name("setorkost.db")
                 .schemaVersion(0)
+                .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
+    }
+
+    @Override
+    public void onTerminate() {
+        Realm.getDefaultInstance().close();
+        super.onTerminate();
     }
 }

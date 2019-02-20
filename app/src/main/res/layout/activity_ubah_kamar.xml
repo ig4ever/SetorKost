@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.UbahKamarFragment">
+    tools:context=".activity.UbahKamarActivity">
 
-    <AutoCompleteTextView
-        android:id="@+id/auto_complete_tipe_rumah"
+    <Spinner
+        android:id="@+id/spinner_tipe_rumah"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_edit_text_background"
@@ -28,7 +28,7 @@
         android:background="@drawable/custom_edit_text_background"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/auto_complete_tipe_rumah"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_tipe_rumah"
         android:layout_margin="14dp"
         android:padding="14dp"
         android:fontFamily="@font/roboto"

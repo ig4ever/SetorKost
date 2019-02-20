@@ -156,21 +156,21 @@ public class RealmHelper {
 
     //region CRUD Data Setoran
     //menyimpan data setoran
-    public void saveSetoran(final Kamar kamarModel){
+    public void saveSetoran(final Setoran setoranModel){
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 if (realm != null){
                     Log.e("Created", "Database was created");
-                    Number currentIdNum = realm.where(Kamar.class).max("id");
+                    Number currentIdNum = realm.where(Setoran.class).max("id");
                     int nextId;
                     if (currentIdNum == null){
                         nextId = 1;
                     }else {
                         nextId = currentIdNum.intValue() + 1;
                     }
-                    kamarModel.setId(nextId);
-                    realm.copyToRealm(kamarModel);
+                    setoranModel.setId(nextId);
+                    realm.copyToRealm(setoranModel);
                 }else {
                     Log.e("info", "execute : Database not exist");
                 }
@@ -178,20 +178,21 @@ public class RealmHelper {
         });
     }
 
-    //mengambil data kamar
+    //mengambil data setoran
     public List<Setoran> getAllSetoran(){
         RealmResults<Setoran> results = realm.where(Setoran.class).findAll();
         return results;
     }
 
-    //update data kamar
-    public void updateSetoran(final Integer id, final String nama, final String umur, final String pekerjaan, final String nomorKamar, final String tanggalMasuk, final String status){
+    //update data setoran
+    public void updateSetoran(final Integer id, final String periode, final String nama, final String umur, final String pekerjaan, final String nomorKamar, final String tanggalMasuk, final String status){
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Setoran modelSetoran = realm.where(Setoran.class)
                         .equalTo("id", id)
                         .findFirst();
+                modelSetoran.setPeriode(periode);
                 modelSetoran.setNama(nama);
                 modelSetoran.setUmur(umur);
                 modelSetoran.setPekerjaan(pekerjaan);
@@ -212,7 +213,7 @@ public class RealmHelper {
         });
     }
 
-    // untuk menghapus data kamar
+    // untuk menghapus data setoran
     public void deleteSetoran(Integer id){
         final RealmResults<Setoran> model = realm.where(Setoran.class).equalTo("id", id).findAll();
         realm.executeTransaction(new Realm.Transaction() {
