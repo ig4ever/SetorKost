@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.rakhmat.setorkost.AdapterSpinner;
 import com.rakhmat.setorkost.activity.TambahKamarActivity;
@@ -42,6 +43,7 @@ public class KamarFragment extends Fragment {
         context = view.getContext();
 
         //Realm Setup
+        Realm.init(context);
         RealmConfiguration configuration = new RealmConfiguration.Builder().build();
         realm = Realm.getInstance(configuration);
         realmHelper = new RealmHelper(realm);
@@ -70,7 +72,7 @@ public class KamarFragment extends Fragment {
 
     private void showRecyclerList(){
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        ListKamarAdapter listKamarAdapter = new ListKamarAdapter(context, kamar);
+        ListKamarAdapter listKamarAdapter = new ListKamarAdapter(context, kamar, getActivity());
         recyclerView.setAdapter(listKamarAdapter);
     }
 }
