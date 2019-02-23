@@ -46,7 +46,13 @@ public class SetoranFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rv_setoran);
 
         final Spinner spinner = (Spinner) view.findViewById(R.id.spinner_filter_tipe_rumah);
-        AdapterSpinner.getInstance().adapterSpinner(view, spinner, "Filter tipe rumah", R.layout.filter_tipe_rumah_item);
+        String[] items = new String[]{
+                "Filter tipe rumah",
+                "30/17C",
+                "31/17C",
+                "33/17C"
+        };
+        AdapterSpinner.getInstance().adapterSpinner(view, spinner, R.layout.filter_tipe_rumah_item, items);
 
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(context));
         recyclerView.setHasFixedSize(true);

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,11 +32,15 @@ import io.realm.RealmConfiguration;
 public class TambahKamarActivity extends AppCompatActivity  {
     Realm realm;
     RealmHelper realmHelper;
+    Context context;
+    Activity activity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tambah_kamar);
+        context = this;
+        activity = this;
 
         //Realm Setup
         Realm.init(TambahKamarActivity.this);
@@ -44,7 +49,14 @@ public class TambahKamarActivity extends AppCompatActivity  {
         realmHelper = new RealmHelper(realm);
 
         final Spinner spinnerTipeRumah = (Spinner) findViewById(R.id.spinner_tipe_rumah);
-        AdapterSpinner.getInstance().adapterSpinner(this, spinnerTipeRumah, "Tipe Rumah", R.layout.tipe_rumah_item);
+
+        String[] items = new String[]{
+                "Tipe Rumah",
+                "30/17C",
+                "31/17C",
+                "33/17C"
+        };
+        AdapterSpinner.getInstance().adapterSpinner(this, spinnerTipeRumah, R.layout.tipe_rumah_item, items);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -58,11 +70,17 @@ public class TambahKamarActivity extends AppCompatActivity  {
         imageButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                InputMethodManager inputManager =
+                        (InputMethodManager) context.
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(
+                        activity.getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
                 finish();
             }
         });
 
-        Button tambahButton = findViewById(R.id.button_tambah);
+        Button tambahButton = findViewById(R.id.button_tambah_kamar);
         tambahButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +103,7 @@ public class TambahKamarActivity extends AppCompatActivity  {
                     editTextHargaKamar.setError("Masukkan Harga Kamar");
                 }
 
-                if ((!tipeRumahText.trim().equalsIgnoreCase("") || !tipeRumahText.trim().equalsIgnoreCase("Tipe Rumah"))
+                if ((!tipeRumahText.trim().equalsIgnoreCase("") && !tipeRumahText.trim().equalsIgnoreCase("Tipe Rumah"))
                         && !nomorKamarText.trim().equalsIgnoreCase("")
                         && !hargaKamarText.trim().equalsIgnoreCase("")){
                     Kamar modelKamar = new Kamar();
@@ -95,6 +113,12 @@ public class TambahKamarActivity extends AppCompatActivity  {
                     modelKamar.setHargaKamar(hargaKamarText);
                     realmHelper.saveKamar(modelKamar);
 
+                    InputMethodManager inputManager =
+                            (InputMethodManager) context.
+                                    getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(
+                            activity.getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
                     finish();
 
                     //Toast.makeText(activity, nomorKamarText + " " + hargaKamarText, Toast.LENGTH_SHORT).show();

@@ -7,11 +7,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
+
 
 import com.rakhmat.setorkost.AdapterSpinner;
 import com.rakhmat.setorkost.activity.TambahKamarActivity;
@@ -34,6 +35,7 @@ public class KamarFragment extends Fragment {
     private RealmHelper realmHelper;
     private Context context;
     private FloatingActionButton buttonTambahKamar;
+    private ListKamarAdapter listKamarAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +54,13 @@ public class KamarFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rv_kamar);
 
         final Spinner spinner = (Spinner) view.findViewById(R.id.spinner_filter_tipe_rumah);
-        AdapterSpinner.getInstance().adapterSpinner(view, spinner, "Filter tipe rumah", R.layout.filter_tipe_rumah_item);
+        String[] items = new String[]{
+                "Filter tipe rumah",
+                "30/17C",
+                "31/17C",
+                "33/17C"
+        };
+        AdapterSpinner.getInstance().adapterSpinner(view, spinner, R.layout.filter_tipe_rumah_item, items);
 
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(context));
         recyclerView.setHasFixedSize(true);
@@ -62,7 +70,7 @@ public class KamarFragment extends Fragment {
         buttonTambahKamar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), TambahKamarActivity.class);
+                Intent intent = new Intent(context, TambahKamarActivity.class);
                 startActivity(intent);
             }
         });
@@ -72,7 +80,14 @@ public class KamarFragment extends Fragment {
 
     private void showRecyclerList(){
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        ListKamarAdapter listKamarAdapter = new ListKamarAdapter(context, kamar, getActivity());
+        listKamarAdapter = new ListKamarAdapter(context, kamar);
         recyclerView.setAdapter(listKamarAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        kamar = realmHelper.getAllKamar();
+        listKamarAdapter.notifyDataSetChanged();
     }
 }

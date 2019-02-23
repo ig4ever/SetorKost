@@ -50,7 +50,7 @@ public class RealmHelper {
 
     //update data kamar
     public void updateKamar(final Integer id, final String tipeKamar, final String nomorKamar, final String hargaKamar){
-        realm.executeTransactionAsync(new Realm.Transaction() {
+        realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Kamar modelKamar = realm.where(Kamar.class)
@@ -59,16 +59,6 @@ public class RealmHelper {
                 modelKamar.setTipeKamar(tipeKamar);
                 modelKamar.setNomorKamar(nomorKamar);
                 modelKamar.setHargaKamar(hargaKamar);
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                Log.e("pppp", "onSuccess: Update Successfully");
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                error.printStackTrace();
             }
         });
     }
@@ -117,7 +107,7 @@ public class RealmHelper {
 
     //update data penghuni
     public void updatePenghuni(final Integer id, final String nama, final String umur, final String pekerjaan, final String nomorKamar, final String tanggalMasuk){
-        realm.executeTransactionAsync(new Realm.Transaction() {
+        realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Penghuni modelPenghuni = realm.where(Penghuni.class)
@@ -128,16 +118,6 @@ public class RealmHelper {
                 modelPenghuni.setPekerjaan(pekerjaan);
                 modelPenghuni.setNomorKamar(nomorKamar);
                 modelPenghuni.setTanggalMasuk(tanggalMasuk);
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                Log.e("pppp", "onSuccess: Update Successfully");
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                error.printStackTrace();
             }
         });
     }
@@ -186,7 +166,7 @@ public class RealmHelper {
 
     //update data setoran
     public void updateSetoran(final Integer id, final String periode, final String nama, final String umur, final String pekerjaan, final String nomorKamar, final String tanggalMasuk, final String status){
-        realm.executeTransactionAsync(new Realm.Transaction() {
+        realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Setoran modelSetoran = realm.where(Setoran.class)
@@ -199,16 +179,6 @@ public class RealmHelper {
                 modelSetoran.setNomorKamar(nomorKamar);
                 modelSetoran.setTanggalMasuk(tanggalMasuk);
                 modelSetoran.setStatus(status);
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                Log.e("pppp", "onSuccess: Update Successfully");
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                error.printStackTrace();
             }
         });
     }

@@ -30,15 +30,9 @@ public class AdapterSpinner {
         return adapterSpinnerInstance;
     }
 
-    public void adapterSpinner(View v, Spinner spinner, String indexZero, @LayoutRes int layoutRes){
-        String[] houseType = new String[]{
-                indexZero,
-                "30/17C",
-                "31/17C",
-                "33/17C"
-        };
+    public void adapterSpinner(View v, Spinner spinner, @LayoutRes int layoutRes, String[] items){
 
-        final List<String> optionHouseType = new ArrayList<>(Arrays.asList(houseType));
+        final List<String> optionHouseType = new ArrayList<>(Arrays.asList(items));
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(v.getContext(), layoutRes, optionHouseType){
             @Override
@@ -76,9 +70,6 @@ public class AdapterSpinner {
                 // First item is disable and it is used for hint
                 if(i > 0){
                     // Notify the selected item text
-                    Toast.makeText
-                            (view.getContext(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
-                            .show();
                 }
             }
 
@@ -89,15 +80,66 @@ public class AdapterSpinner {
         });
     }
 
-    public void adapterSpinner(Context context, Spinner spinner, String indexZero, @LayoutRes int layoutRes){
-        String[] houseType = new String[]{
-                indexZero,
-                "30/17C",
-                "31/17C",
-                "33/17C"
-        };
+    public void adapterSpinner(View v, Spinner spinner, @LayoutRes int layoutRes, String compareString, String[] items){
 
-        final List<String> optionHouseType = new ArrayList<>(Arrays.asList(houseType));
+        final List<String> optionHouseType = new ArrayList<>(Arrays.asList(items));
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(v.getContext(), layoutRes, optionHouseType){
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0)
+                    return false;
+                else
+                    return true;
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) v;
+                int dp = 10;
+                float scale = v.getResources().getDisplayMetrics().density;
+                int dpAsPixels = (int) (dp*scale + 0.5f);
+                tv.setPadding(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels);
+
+                if (position == 0)
+                    tv.setTextColor(Color.parseColor("#929292"));
+                else
+                    tv.setTextColor(Color.BLACK);
+                return v;
+            }
+        };
+        spinnerArrayAdapter.setDropDownViewResource(layoutRes);
+        spinner.setAdapter(spinnerArrayAdapter);
+        for (int i = 1; i < items.length; i++){
+            if (compareString.equals(items[i])) {
+                int spinnerPosition = spinnerArrayAdapter.getPosition(compareString);
+                spinner.setSelection(spinnerPosition);
+                break;
+            }
+        }
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedItemText = (String) adapterView.getItemAtPosition(i);
+                // If user change the default selection
+                // First item is disable and it is used for hint
+                if(i > 0){
+                    // Notify the selected item text
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    public void adapterSpinner(Context context, Spinner spinner, @LayoutRes int layoutRes, String[] items){
+
+        final List<String> optionHouseType = new ArrayList<>(Arrays.asList(items));
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(context, layoutRes, optionHouseType){
             @Override
@@ -135,9 +177,63 @@ public class AdapterSpinner {
                 // First item is disable and it is used for hint
                 if(i > 0){
                     // Notify the selected item text
-                    Toast.makeText
-                            (view.getContext(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
-                            .show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    public void adapterSpinner(Context context, Spinner spinner, @LayoutRes int layoutRes, String compareString, String[] items){
+
+        final List<String> optionHouseType = new ArrayList<>(Arrays.asList(items));
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(context, layoutRes, optionHouseType){
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0)
+                    return false;
+                else
+                    return true;
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) v;
+                int dp = 10;
+                float scale = v.getResources().getDisplayMetrics().density;
+                int dpAsPixels = (int) (dp*scale + 0.5f);
+                tv.setPadding(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels);
+
+                if (position == 0)
+                    tv.setTextColor(Color.parseColor("#929292"));
+                else
+                    tv.setTextColor(Color.BLACK);
+                return v;
+            }
+        };
+        spinnerArrayAdapter.setDropDownViewResource(layoutRes);
+        spinner.setAdapter(spinnerArrayAdapter);
+        for (int i = 1; i < items.length; i++){
+            if (compareString.equals(items[i])) {
+                int spinnerPosition = spinnerArrayAdapter.getPosition(compareString);
+                spinner.setSelection(spinnerPosition);
+                break;
+            }
+        }
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedItemText = (String) adapterView.getItemAtPosition(i);
+                // If user change the default selection
+                // First item is disable and it is used for hint
+                if(i > 0){
+                    // Notify the selected item text
                 }
             }
 
