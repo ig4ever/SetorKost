@@ -101,7 +101,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/item_umur_penghuni" />
 
     <Button
-        android:id="@+id/button_ubah_kamar"
+        android:id="@+id/button_ubah_penghuni"
         android:layout_width="70dp"
         android:layout_height="30dp"
         android:layout_marginTop="0dp"
@@ -115,12 +115,12 @@
         android:textAllCaps="false"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintTop_toTopOf="@+id/button_hapus_kamar"
-        app:layout_constraintBottom_toBottomOf="@+id/button_hapus_kamar"
-        app:layout_constraintRight_toLeftOf="@+id/button_hapus_kamar"/>
+        app:layout_constraintTop_toTopOf="@+id/button_hapus_penghuni"
+        app:layout_constraintBottom_toBottomOf="@+id/button_hapus_penghuni"
+        app:layout_constraintRight_toLeftOf="@+id/button_hapus_penghuni"/>
 
     <Button
-        android:id="@+id/button_hapus_kamar"
+        android:id="@+id/button_hapus_penghuni"
         android:layout_width="70dp"
         android:layout_height="30dp"
         android:layout_marginTop="6dp"

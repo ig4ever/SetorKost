@@ -48,6 +48,17 @@ public class RealmHelper {
         return results;
     }
 
+    //mengambil data kamar
+    public List<Kamar> getAllKamar(String tipeRumah){
+        RealmResults<Kamar> results = realm.where(Kamar.class).equalTo("tipeKamar", tipeRumah).findAll();
+        return results;
+    }
+
+    public Kamar getAllKamar(String tipeRumah, String nomorKamar){
+        Kamar results = realm.where(Kamar.class).equalTo("tipeKamar", tipeRumah).equalTo("nomorKamar", nomorKamar).findFirst();
+        return results;
+    }
+
     //update data kamar
     public void updateKamar(final Integer id, final String tipeKamar, final String nomorKamar, final String hargaKamar){
         realm.executeTransaction(new Realm.Transaction() {
@@ -106,13 +117,15 @@ public class RealmHelper {
     }
 
     //update data penghuni
-    public void updatePenghuni(final Integer id, final String nama, final String umur, final String pekerjaan, final String nomorKamar, final String tanggalMasuk){
+    public void updatePenghuni(final Integer id, final String nama, final String umur, final String pekerjaan, final String tipeRumah, final String hargaKamar, final String nomorKamar, final String tanggalMasuk){
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Penghuni modelPenghuni = realm.where(Penghuni.class)
                         .equalTo("id", id)
                         .findFirst();
+                modelPenghuni.setTipeKamar(tipeRumah);
+                modelPenghuni.setHargaKamar(hargaKamar);
                 modelPenghuni.setNama(nama);
                 modelPenghuni.setUmur(umur);
                 modelPenghuni.setPekerjaan(pekerjaan);

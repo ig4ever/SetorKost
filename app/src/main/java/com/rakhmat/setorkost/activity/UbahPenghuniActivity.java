@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.rakhmat.setorkost.AdapterSpinner;
 import com.rakhmat.setorkost.R;
+import com.rakhmat.setorkost.model.Kamar;
 import com.rakhmat.setorkost.model.Penghuni;
 import com.rakhmat.setorkost.realm.RealmHelper;
 
@@ -42,14 +43,25 @@ public class UbahPenghuniActivity extends AppCompatActivity {
         realm = Realm.getInstance(configuration);
         realmHelper = new RealmHelper(realm);
 
+        final Spinner spinnerTipeRumah = (Spinner) findViewById(R.id.spinner_tipe_rumah);
         final Spinner spinnerNomorKamar = (Spinner) findViewById(R.id.spinner_nomor_kamar);
-        String[] items = new String[]{
+        EditText editTextNama = findViewById(R.id.edit_text_nama_penghuni);
+        EditText editTextUmur = findViewById(R.id.edit_text_umur_penghuni);
+        EditText editTextPekerjaan = findViewById(R.id.edit_text_pekerjaan_penghuni);
+        EditText editTextTanggalMasuk = findViewById(R.id.edit_text_tanggal_masuk);
+
+        String[] itemsTipeRumah = new String[]{
                 "Nomor Kamar",
                 "30/17C",
                 "31/17C",
                 "33/17C"
         };
-        AdapterSpinner.getInstance().adapterSpinner(this, spinnerNomorKamar, R.layout.nomor_kamar_item, items);
+
+        AdapterSpinner.getInstance().adapterSpinnerCustom(this, spinnerTipeRumah, spinnerNomorKamar, R.layout.tipe_rumah_item, getIntent().getStringExtra("TIPE_RUMAH"), getIntent().getStringExtra("NOMOR_KAMAR"), itemsTipeRumah);
+        editTextNama.setText(getIntent().getStringExtra("NAMA"));
+        editTextUmur.setText(getIntent().getStringExtra("UMUR"));
+        editTextPekerjaan.setText(getIntent().getStringExtra("PEKERJAAN"));
+        editTextTanggalMasuk.setText(getIntent().getStringExtra("TANGGAL_MASUK"));
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -83,15 +95,21 @@ public class UbahPenghuniActivity extends AppCompatActivity {
                 EditText editTextTanggalMasukPenghuni = findViewById(R.id.edit_text_tanggal_masuk);
 
                 TextView errorTextNomorKamar = (TextView) spinnerNomorKamar.getSelectedView();
+                TextView errorTextTipeRumah = (TextView) spinnerTipeRumah.getSelectedView();
 
                 String nomorKamarText = spinnerNomorKamar.getSelectedItem().toString();
+                String tipeRumahText = spinnerTipeRumah.getSelectedItem().toString();
                 String namaPenghuniText = editTextNamaPenghuni.getText().toString();
                 String umurPenghuniText = editTextUmurPenghuni.getText().toString();
                 String pekerjaanPenghuniText = editTextPekerjaanPenghuni.getText().toString();
                 String tanggalMasukPenghuniText = editTextTanggalMasukPenghuni.getText().toString();
+                int idPenghuni = getIntent().getIntExtra("ID_PENGHUNI", 0);
 
                 if(nomorKamarText.trim().equalsIgnoreCase("") || nomorKamarText.trim().equalsIgnoreCase("Nomor Kamar")){
                     errorTextNomorKamar.setError("Pilih Nomor Kamar");
+                }
+                if(tipeRumahText.trim().equalsIgnoreCase("") || tipeRumahText.trim().equalsIgnoreCase("Tipe Rumah")){
+                    errorTextTipeRumah.setError("Pilih Tipe Rumah");
                 }
                 if(namaPenghuniText.trim().equalsIgnoreCase("")){
                     editTextNamaPenghuni.setError("Masukkan Nama Penghuni");
@@ -107,18 +125,14 @@ public class UbahPenghuniActivity extends AppCompatActivity {
                 }
 
                 if ((!nomorKamarText.trim().equalsIgnoreCase("") && !nomorKamarText.trim().equalsIgnoreCase("Nomor Kamar"))
+                        && (!tipeRumahText.trim().equalsIgnoreCase("") && !tipeRumahText.trim().equalsIgnoreCase("Tipe Rumah"))
                         && !namaPenghuniText.trim().equalsIgnoreCase("")
                         && !umurPenghuniText.trim().equalsIgnoreCase("")
                         && !pekerjaanPenghuniText.trim().equalsIgnoreCase("")
                         && !tanggalMasukPenghuniText.trim().equalsIgnoreCase("")){
-                    Penghuni modelPenghuni = new Penghuni();
 
-                    modelPenghuni.setNama(namaPenghuniText);
-                    modelPenghuni.setUmur(umurPenghuniText);
-                    modelPenghuni.setPekerjaan(pekerjaanPenghuniText);
-                    modelPenghuni.setNomorKamar(nomorKamarText);
-                    modelPenghuni.setTanggalMasuk(tanggalMasukPenghuniText);
-                    realmHelper.savePenghuni(modelPenghuni);
+                    Kamar kamar = realmHelper.getAllKamar(tipeRumahText, nomorKamarText);
+                    realmHelper.updatePenghuni(idPenghuni, namaPenghuniText, umurPenghuniText, pekerjaanPenghuniText, tipeRumahText, kamar.getHargaKamar(), nomorKamarText, tanggalMasukPenghuniText);
 
                     InputMethodManager inputManager =
                             (InputMethodManager) context.

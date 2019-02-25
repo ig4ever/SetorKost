@@ -6,7 +6,23 @@ import io.realm.annotations.PrimaryKey;
 public class Penghuni extends RealmObject {
     @PrimaryKey
     private int id;
-    private String nama, umur, pekerjaan, nomorKamar, tanggalMasuk;
+    private String tipeKamar, hargaKamar, nama, umur, pekerjaan, nomorKamar, tanggalMasuk;
+
+    public String getTipeKamar() {
+        return tipeKamar;
+    }
+
+    public void setTipeKamar(String tipeKamar) {
+        this.tipeKamar = tipeKamar;
+    }
+
+    public String getHargaKamar() {
+        return hargaKamar;
+    }
+
+    public void setHargaKamar(String hargaKamar) {
+        this.hargaKamar = hargaKamar;
+    }
 
     public int getId() {
         return id;

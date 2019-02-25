@@ -33,6 +33,7 @@ public class PenghuniFragment extends Fragment {
     private RealmHelper realmHelper;
     private Context context;
     private FloatingActionButton buttonTambahPenghuni;
+    private ListPenghuniAdapter listPenghuniAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,7 +77,14 @@ public class PenghuniFragment extends Fragment {
 
     private void showRecyclerList(){
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        ListPenghuniAdapter listPenghuniAdapter = new ListPenghuniAdapter(context, penghuni);
+        listPenghuniAdapter = new ListPenghuniAdapter(context, penghuni);
         recyclerView.setAdapter(listPenghuniAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        penghuni = realmHelper.getAllPenghuni();
+        listPenghuniAdapter.notifyDataSetChanged();
     }
 }
