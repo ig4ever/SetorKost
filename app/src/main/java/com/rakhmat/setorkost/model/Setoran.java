@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 public class Setoran extends RealmObject {
     @PrimaryKey
     private int id;
-    private String periode, nama, umur, pekerjaan, tipeKamar, nomorKamar, hargaKamar, tanggalMasuk, status;
+    private String periode, nama, umur, pekerjaan, tipeKamar, nomorKamar, hargaKamar, tanggalMasuk, status, tanggalBayar;
 
     public int getId() {
         return id;
@@ -86,5 +86,13 @@ public class Setoran extends RealmObject {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getTanggalBayar() {
+        return tanggalBayar;
+    }
+
+    public void setTanggalBayar(String tanggalBayar) {
+        this.tanggalBayar = tanggalBayar;
     }
 }

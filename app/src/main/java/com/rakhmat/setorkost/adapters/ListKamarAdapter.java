@@ -23,6 +23,8 @@ import com.rakhmat.setorkost.model.Kamar;
 import com.rakhmat.setorkost.R;
 import com.rakhmat.setorkost.realm.RealmHelper;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,9 +60,13 @@ public class ListKamarAdapter extends RecyclerView.Adapter<ListKamarAdapter.Cate
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, final int position) {
         final Kamar model = kamar.get(position);
 
-        holder.tvTipeRumah.setText(model.getTipeKamar());
-        holder.tvNomorKamar.setText(model.getNomorKamar());
-        holder.tvHargaKamar.setText(model.getHargaKamar());
+        NumberFormat formatter = new DecimalFormat("#,###");
+        double myNumber = Double.parseDouble(model.getHargaKamar());
+        String hargaKamar = formatter.format(myNumber);
+
+        holder.tvTipeRumah.setText("Rumah " +model.getTipeKamar());
+        holder.tvNomorKamar.setText("Kamar "+model.getNomorKamar());
+        holder.tvHargaKamar.setText("Rp. "+hargaKamar);
 
         holder.buttonHapusKamar.setOnTouchListener(new View.OnTouchListener(){
             long then = 0;

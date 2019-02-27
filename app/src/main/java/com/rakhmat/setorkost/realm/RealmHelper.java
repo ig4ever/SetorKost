@@ -10,6 +10,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class RealmHelper {
     Realm realm;
@@ -45,7 +46,7 @@ public class RealmHelper {
     //mengambil data kamar
     public List<Kamar> getAllKamar(){
         RealmResults<Kamar> results = realm.where(Kamar.class).findAll();
-        return results;
+        return results.sort("id", Sort.DESCENDING);
     }
 
     //mengambil data kamar
@@ -113,7 +114,7 @@ public class RealmHelper {
     //mengambil data penghuni
     public List<Penghuni> getAllPenghuni(){
         RealmResults<Penghuni> results = realm.where(Penghuni.class).findAll();
-        return results;
+        return results.sort("id", Sort.DESCENDING);
     }
 
     //update data penghuni
@@ -174,11 +175,21 @@ public class RealmHelper {
     //mengambil data setoran
     public List<Setoran> getAllSetoran(){
         RealmResults<Setoran> results = realm.where(Setoran.class).findAll();
+        return results.sort("id", Sort.DESCENDING);
+    }
+
+    public List<Setoran> getAllSetoran(String periode){
+        RealmResults<Setoran> results = realm.where(Setoran.class).equalTo("periode", periode).findAll();
+        return results;
+    }
+
+    public List<Setoran> getAllSetoran(String periode, String status){
+        RealmResults<Setoran> results = realm.where(Setoran.class).equalTo("periode", periode).equalTo("status", status).findAll();
         return results;
     }
 
     //update data setoran
-    public void updateSetoran(final Integer id, final String periode, final String nama, final String umur, final String pekerjaan, final String nomorKamar, final String tanggalMasuk, final String status){
+    public void updateSetoran(final Integer id, final String periode, final String nama, final String umur, final String pekerjaan, final String nomorKamar, final String tanggalMasuk, final String status, final String hargaKamar, final String tipeRumah, final String tanggalBayar){
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -192,17 +203,40 @@ public class RealmHelper {
                 modelSetoran.setNomorKamar(nomorKamar);
                 modelSetoran.setTanggalMasuk(tanggalMasuk);
                 modelSetoran.setStatus(status);
+                modelSetoran.setTipeKamar(tipeRumah);
+                modelSetoran.setHargaKamar(hargaKamar);
+                modelSetoran.setTanggalBayar(tanggalBayar);
+            }
+        });
+    }
+
+    //update data setoran
+    public void updateSetoran(final Integer id, final String status, final String tanggalBayar){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Setoran modelSetoran = realm.where(Setoran.class)
+                        .equalTo("id", id)
+                        .findFirst();
+                modelSetoran.setStatus(status);
+                modelSetoran.setTanggalBayar(tanggalBayar);
             }
         });
     }
 
     // untuk menghapus data setoran
-    public void deleteSetoran(Integer id){
-        final RealmResults<Setoran> model = realm.where(Setoran.class).equalTo("id", id).findAll();
+    public void deleteSetoran(final String nama, final String umur, final String pekerjaan, final String nomorKamar, final String hargaKamar, final String tipeRumah){
+        final RealmResults<Setoran> model = realm.where(Setoran.class).equalTo("nama", nama)
+                .equalTo("umur", umur)
+                .equalTo("pekerjaan", pekerjaan)
+                .equalTo("nomorKamar", nomorKamar)
+                .equalTo("hargaKamar", hargaKamar)
+                .equalTo("tipeKamar", tipeRumah)
+                .findAll();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                model.deleteFromRealm(0);
+                model.deleteAllFromRealm();
             }
         });
     }

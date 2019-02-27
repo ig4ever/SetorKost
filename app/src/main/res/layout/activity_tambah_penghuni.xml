@@ -30,6 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_text_nama_penghuni"
         android:layout_margin="14dp"
         android:padding="14dp"
+        android:inputType="number"
         android:fontFamily="@font/roboto"
         android:textSize="16sp"
         android:hint="Umur"/>
@@ -90,7 +91,9 @@
         android:padding="14dp"
         android:fontFamily="@font/roboto"
         android:textSize="16sp"
-        android:hint="Tanggal Masuk"/>
+        android:hint="Tanggal Masuk"
+        android:clickable="true"
+        android:focusable="false"/>
 
     <Button
         android:id="@+id/button_tambah_penghuni"

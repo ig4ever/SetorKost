@@ -32,6 +32,7 @@
         android:padding="14dp"
         android:fontFamily="@font/roboto"
         android:textSize="16sp"
+        android:inputType="number"
         android:hint="Umur"/>
 
     <EditText
@@ -90,7 +91,9 @@
         android:padding="14dp"
         android:fontFamily="@font/roboto"
         android:textSize="16sp"
-        android:hint="Tanggal Masuk"/>
+        android:hint="Tanggal Masuk"
+        android:clickable="true"
+        android:focusable="false"/>
 
     <Button
         android:id="@+id/button_ubah_penghuni"

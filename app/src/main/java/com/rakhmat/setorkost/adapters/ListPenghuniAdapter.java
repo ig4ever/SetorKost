@@ -17,6 +17,8 @@ import com.rakhmat.setorkost.model.Penghuni;
 import com.rakhmat.setorkost.R;
 import com.rakhmat.setorkost.realm.RealmHelper;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,13 +52,18 @@ public class ListPenghuniAdapter extends RecyclerView.Adapter<ListPenghuniAdapte
     @Override
     public void onBindViewHolder(@NonNull ListPenghuniAdapter.CategoryViewHolder holder, int position) {
         final Penghuni model = penghuni.get(position);
-        holder.tvTipeRumah.setText(model.getTipeKamar());
-        holder.tvHargaKamar.setText(model.getHargaKamar());
-        holder.tvNama.setText(model.getNama());
-        holder.tvUmur.setText(model.getUmur());
-        holder.tvPekerjaan.setText(model.getPekerjaan());
-        holder.tvNomorKamar.setText(model.getNomorKamar());
-        holder.tvTanggalMasuk.setText(model.getTanggalMasuk());
+
+        NumberFormat formatter = new DecimalFormat("#,###");
+        double myNumber = Double.parseDouble(model.getHargaKamar());
+        final String hargaKamar = formatter.format(myNumber);
+
+        holder.tvTipeRumah.setText("Rumah "+model.getTipeKamar());
+        holder.tvHargaKamar.setText("Rp. "+hargaKamar);
+        holder.tvNama.setText("Nama : " +model.getNama());
+        holder.tvUmur.setText("Umur : " +model.getUmur());
+        holder.tvPekerjaan.setText("Pekerjaan : " +model.getPekerjaan());
+        holder.tvNomorKamar.setText("Kamar " +model.getNomorKamar());
+        holder.tvTanggalMasuk.setText("Tanggal Masuk : " +model.getTanggalMasuk());
 
         holder.buttonHapusKamar.setOnTouchListener(new View.OnTouchListener(){
             long then = 0;
@@ -68,6 +75,7 @@ public class ListPenghuniAdapter extends RecyclerView.Adapter<ListPenghuniAdapte
                 }
                 else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     if(((Long) System.currentTimeMillis() - then) > 2100){
+                        realmHelper.deleteSetoran(model.getNama(), model.getUmur(), model.getPekerjaan(), model.getNomorKamar(), model.getHargaKamar(), model.getTipeKamar());
                         realmHelper.deletePenghuni(model.getId());
                         notifyDataSetChanged();
                         return true;

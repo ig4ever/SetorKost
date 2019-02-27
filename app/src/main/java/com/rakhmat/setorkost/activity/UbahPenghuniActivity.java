@@ -2,6 +2,7 @@ package com.rakhmat.setorkost.activity;
 
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -19,7 +21,14 @@ import com.rakhmat.setorkost.AdapterSpinner;
 import com.rakhmat.setorkost.R;
 import com.rakhmat.setorkost.model.Kamar;
 import com.rakhmat.setorkost.model.Penghuni;
+import com.rakhmat.setorkost.model.Setoran;
 import com.rakhmat.setorkost.realm.RealmHelper;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -45,6 +54,37 @@ public class UbahPenghuniActivity extends AppCompatActivity {
 
         final Spinner spinnerTipeRumah = (Spinner) findViewById(R.id.spinner_tipe_rumah);
         final Spinner spinnerNomorKamar = (Spinner) findViewById(R.id.spinner_nomor_kamar);
+        final EditText editTextTanggalMasukPenghuni = findViewById(R.id.edit_text_tanggal_masuk);
+
+        final Calendar myCalendar = Calendar.getInstance();
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                String myFormat = "dd/MM/yy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                editTextTanggalMasukPenghuni.setText(sdf.format(myCalendar.getTime()));
+            }
+        };
+
+        editTextTanggalMasukPenghuni.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(UbahPenghuniActivity.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
         EditText editTextNama = findViewById(R.id.edit_text_nama_penghuni);
         EditText editTextUmur = findViewById(R.id.edit_text_umur_penghuni);
         EditText editTextPekerjaan = findViewById(R.id.edit_text_pekerjaan_penghuni);
@@ -132,6 +172,80 @@ public class UbahPenghuniActivity extends AppCompatActivity {
                         && !tanggalMasukPenghuniText.trim().equalsIgnoreCase("")){
 
                     Kamar kamar = realmHelper.getAllKamar(tipeRumahText, nomorKamarText);
+                    Kamar oldKamar = realmHelper.getAllKamar(getIntent().getStringExtra("TIPE_RUMAH"), getIntent().getStringExtra("NOMOR_KAMAR"));
+                    realmHelper.deleteSetoran(getIntent().getStringExtra("NAMA"), getIntent().getStringExtra("UMUR"), getIntent().getStringExtra("PEKERJAAN"), getIntent().getStringExtra("NOMOR_KAMAR"), oldKamar.getHargaKamar(), getIntent().getStringExtra("TIPE_RUMAH"));
+
+                    String tempDate;
+                    String stringDate = tanggalMasukPenghuniText;
+                    tempDate = stringDate;
+                    Date currentdate = null;
+                    Calendar c;
+                    SimpleDateFormat format1;
+                    SimpleDateFormat format2;
+
+                    String [] dateParts = stringDate.split("/");
+                    String day = dateParts[0];
+                    String month = dateParts[1];
+                    String year = dateParts[2];
+
+                    for (int i = 0; i < 12; i++){
+                        if (year.equals(tanggalMasukPenghuniText.split("/")[2])){
+
+                            Setoran modelSetoran = new Setoran();
+                            if(tempDate.split("/")[1].equals("01")){
+                                month = "Januari";
+                            }else if (tempDate.split("/")[1].equals("02")){
+                                month = "Februari";
+                            }else if (tempDate.split("/")[1].equals("03")){
+                                month = "Maret";
+                            }else if (tempDate.split("/")[1].equals("04")){
+                                month = "April";
+                            }else if (tempDate.split("/")[1].equals("05")){
+                                month = "Mei";
+                            }else if (tempDate.split("/")[1].equals("06")){
+                                month = "Juni";
+                            }else if (tempDate.split("/")[1].equals("07")){
+                                month = "Juli";
+                            }else if (tempDate.split("/")[1].equals("08")){
+                                month = "Agustus";
+                            }else if (tempDate.split("/")[1].equals("09")){
+                                month = "September";
+                            }else if (tempDate.split("/")[1].equals("10")){
+                                month = "Oktober";
+                            }else if (tempDate.split("/")[1].equals("11")){
+                                month = "November";
+                            }else if (tempDate.split("/")[1].equals("12")){
+                                month = "Desember";
+                            }
+                            modelSetoran.setPeriode(month + " " + year);
+                            modelSetoran.setTipeKamar(tipeRumahText);
+                            modelSetoran.setHargaKamar(kamar.getHargaKamar());
+                            modelSetoran.setNama(namaPenghuniText);
+                            modelSetoran.setUmur(umurPenghuniText);
+                            modelSetoran.setPekerjaan(pekerjaanPenghuniText);
+                            modelSetoran.setNomorKamar(nomorKamarText);
+                            modelSetoran.setTanggalMasuk(tempDate);
+                            modelSetoran.setStatus("Belum Setor");
+                            modelSetoran.setTanggalBayar("-");
+                            realmHelper.saveSetoran(modelSetoran);
+
+                            format1 = new SimpleDateFormat("dd/MM/yy", Locale.ENGLISH);
+                            c = Calendar.getInstance();
+                            try {
+                                c.setTime(format1.parse(tempDate));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            c.add(Calendar.DATE, 30);
+                            format2 = new SimpleDateFormat("dd/MM/yy");
+                            tempDate = format2.format(c.getTime());
+                            dateParts = tempDate.split("/");
+                            year = dateParts[2];
+                        }else {
+                            break;
+                        }
+                    }
+
                     realmHelper.updatePenghuni(idPenghuni, namaPenghuniText, umurPenghuniText, pekerjaanPenghuniText, tipeRumahText, kamar.getHargaKamar(), nomorKamarText, tanggalMasukPenghuniText);
 
                     InputMethodManager inputManager =
