@@ -185,7 +185,21 @@ public class RealmHelper {
 
     public List<Setoran> getAllSetoran(String periode, String status){
         RealmResults<Setoran> results = realm.where(Setoran.class).equalTo("periode", periode).equalTo("status", status).findAll();
-        return results;
+        return results.sort("id", Sort.DESCENDING);
+    }
+
+    public List<Setoran> getAllSetoran(final String periode, final String nama, final String umur, final String pekerjaan, final String nomorKamar, final String tanggalMasuk, final String status, final String hargaKamar, final String tipeRumah, final String tanggalBayar){
+        RealmResults<Setoran> results = realm.where(Setoran.class).equalTo("periode", periode)
+                .equalTo("status", nama)
+                .equalTo("status", umur)
+                .equalTo("status", pekerjaan)
+                .equalTo("status", nomorKamar)
+                .equalTo("status", tanggalMasuk)
+                .equalTo("status", status)
+                .equalTo("status", hargaKamar)
+                .equalTo("status", tipeRumah)
+                .equalTo("status", tanggalBayar).findAll();
+        return results.sort("id", Sort.DESCENDING);
     }
 
     //update data setoran

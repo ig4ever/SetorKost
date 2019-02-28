@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.rakhmat.setorkost.activity.MainActivity;
@@ -28,18 +30,23 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Case;
+import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
+import io.realm.RealmBaseAdapter;
 import io.realm.RealmConfiguration;
+import io.realm.RealmRecyclerViewAdapter;
 
-public class ListKamarAdapter extends RecyclerView.Adapter<ListKamarAdapter.CategoryViewHolder> {
+public class ListKamarAdapter extends RealmRecyclerViewAdapter<Kamar, ListKamarAdapter.CategoryViewHolder> implements Filterable {
     private Context context;
-    private List<Kamar> kamar;
+    String tipeRumah;
     Realm realm;
     RealmHelper realmHelper;
 
-    public ListKamarAdapter(Context context, List<Kamar> kamar) {
+    public ListKamarAdapter(Context context, Realm realm, OrderedRealmCollection<Kamar> data) {
+        super(data, true);
         this.context = context;
-        this.kamar = kamar;
+        this.realm = realm;
     }
 
     @NonNull
@@ -47,18 +54,12 @@ public class ListKamarAdapter extends RecyclerView.Adapter<ListKamarAdapter.Cate
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_kamar, parent, false);
 
-        //Realm Setup
-        Realm.init(context);
-        RealmConfiguration configuration = new RealmConfiguration.Builder().build();
-        realm = Realm.getInstance(configuration);
-        realmHelper = new RealmHelper(realm);
-
         return new CategoryViewHolder(itemRow);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryViewHolder holder, final int position) {
-        final Kamar model = kamar.get(position);
+    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
+        final Kamar model = getData().get(position);
 
         NumberFormat formatter = new DecimalFormat("#,###");
         double myNumber = Double.parseDouble(model.getHargaKamar());
@@ -100,9 +101,45 @@ public class ListKamarAdapter extends RecyclerView.Adapter<ListKamarAdapter.Cate
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return kamar.size();
+    // filtering
+    public void filterResults(String text) {
+        text = text == null ? null : text.toLowerCase().trim();
+        if (text.equals("30/17c") || text.equals("31/17c") || text.equals("33/17c")){
+            tipeRumah = text;
+        }
+        if(text == null || "".equals(text)) {
+            updateData(realm.where(Kamar.class).findAll());
+        } else {
+            updateData(realm.where(Kamar.class)
+                    .equalTo("nomorKamar", text, Case.INSENSITIVE)
+                    .or()
+                    .equalTo("tipeKamar", tipeRumah, Case.INSENSITIVE)
+                    .findAll());
+        }
+    }
+
+    public Filter getFilter() {
+        return new FilterKamar(this);
+    }
+
+    private class FilterKamar
+            extends Filter {
+        private final ListKamarAdapter adapter;
+
+        private FilterKamar(ListKamarAdapter adapter) {
+            super();
+            this.adapter = adapter;
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            return new FilterResults();
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            adapter.filterResults(constraint.toString());
+        }
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
@@ -121,5 +158,10 @@ public class ListKamarAdapter extends RecyclerView.Adapter<ListKamarAdapter.Cate
             buttonHapusKamar = itemView.findViewById(R.id.button_hapus_kamar);
             buttonUbahKamar = itemView.findViewById(R.id.button_ubah_kamar);
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        return getData().size();
     }
 }

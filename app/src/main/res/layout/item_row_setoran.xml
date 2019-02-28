@@ -151,6 +151,26 @@
         android:textAllCaps="false"
         android:clickable="true"
         android:focusable="true"
+        app:layout_constraintTop_toTopOf="@+id/button_reset_setoran"
+        app:layout_constraintRight_toLeftOf="@+id/button_reset_setoran"
+        app:layout_constraintBottom_toBottomOf="@+id/button_reset_setoran"/>
+
+    <Button
+        android:id="@+id/button_reset_setoran"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/button_hapus"
+        android:text="Reset"
+        android:textColor="#FFFFFF"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="14sp"
+        android:textAllCaps="false"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintTop_toBottomOf="@+id/item_tanggal_bayar"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

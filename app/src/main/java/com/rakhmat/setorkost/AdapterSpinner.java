@@ -82,7 +82,8 @@ public class AdapterSpinner {
                 if (selectedItemText.equalsIgnoreCase("Filter tipe rumah")
                         || selectedItemText.equalsIgnoreCase("Tipe Rumah")
                         || selectedItemText.equalsIgnoreCase("Nomor Kamar")
-                        || selectedItemText.equalsIgnoreCase("Filter tipe rumah")){
+                        || selectedItemText.equalsIgnoreCase("Filter tipe rumah")
+                        || selectedItemText.equalsIgnoreCase("Filter periode")){
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.parseColor("#929292"));
                 }else {
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);

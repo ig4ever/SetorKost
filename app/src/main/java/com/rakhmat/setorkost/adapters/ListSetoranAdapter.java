@@ -9,9 +9,12 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.rakhmat.setorkost.R;
@@ -21,20 +24,29 @@ import com.rakhmat.setorkost.realm.RealmHelper;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
+import io.realm.Case;
+import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmRecyclerViewAdapter;
 
-public class ListSetoranAdapter extends RecyclerView.Adapter<ListSetoranAdapter.CategoryViewHolder> {
+public class ListSetoranAdapter extends RealmRecyclerViewAdapter<Setoran, ListSetoranAdapter.CategoryViewHolder> implements Filterable {
     private Context context;
-    private List<Setoran> setoran;
     Realm realm;
     RealmHelper realmHelper;
+    String tipeRumah;
+    String namaPenghuni;
+    String periode;
 
-    public ListSetoranAdapter(Context context, List<Setoran> setoran) {
+    public ListSetoranAdapter(Context context, Realm realm, OrderedRealmCollection<Setoran> data) {
+        super(data, true);
         this.context = context;
-        this.setoran = setoran;
+        this.realm = realm;
     }
 
     @NonNull
@@ -52,7 +64,7 @@ public class ListSetoranAdapter extends RecyclerView.Adapter<ListSetoranAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        final Setoran model = setoran.get(position);
+        final Setoran model = getData().get(position);
         NumberFormat formatter = new DecimalFormat("#,###");
         double myNumber = Double.parseDouble(model.getHargaKamar());
         String hargaKamar = formatter.format(myNumber);
@@ -82,6 +94,25 @@ public class ListSetoranAdapter extends RecyclerView.Adapter<ListSetoranAdapter.
         holder.tvTipeRumah.setText("Rumah "+model.getTipeKamar());
         holder.tvHargaKamar.setText("Rp. " + hargaKamar);
 
+        holder.buttonResetSetoran.setOnTouchListener(new View.OnTouchListener(){
+            long then = 0;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    then = (Long) System.currentTimeMillis();
+                }
+                else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if(((Long) System.currentTimeMillis() - then) > 2100){
+                        realmHelper.updateSetoran(model.getId(), "Belum Setor", "-");
+                        notifyDataSetChanged();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
         holder.buttonUpdateSetoran.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,7 +136,7 @@ public class ListSetoranAdapter extends RecyclerView.Adapter<ListSetoranAdapter.
 
     @Override
     public int getItemCount() {
-        return setoran.size();
+        return getData().size();
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
@@ -121,6 +152,7 @@ public class ListSetoranAdapter extends RecyclerView.Adapter<ListSetoranAdapter.
         TextView tvStatus;
 
         Button buttonUpdateSetoran;
+        Button buttonResetSetoran;
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
@@ -135,6 +167,76 @@ public class ListSetoranAdapter extends RecyclerView.Adapter<ListSetoranAdapter.
             tvHargaKamar = itemView.findViewById(R.id.item_harga_kamar);
             tvTanggalBayar = itemView.findViewById(R.id.item_tanggal_bayar);
             buttonUpdateSetoran = itemView.findViewById(R.id.button_update_setoran);
+            buttonResetSetoran = itemView.findViewById(R.id.button_reset_setoran);
+        }
+    }
+
+    // filtering
+    public void filterResults(String text) {
+        text = text == null ? null : text.toLowerCase().trim();
+        if (text.equals("30/17c") || text.equals("31/17c") || text.equals("33/17c")){
+            tipeRumah = text;
+        }
+        char[] chars = text.toCharArray();
+
+        for (char c : chars){
+            if (Character.isLetter(c)){
+                namaPenghuni = text;
+            }
+        }
+
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
+        String tempDate = format.format(c.getTime());
+        String [] dateParts = tempDate.split("/");
+
+        if (text.equals("januari " + dateParts[2]) || text.equals("februari " + dateParts[2]) || text.equals("maret " + dateParts[2])
+                || text.equals("april " + dateParts[2]) || text.equals("mei " + dateParts[2]) || text.equals("juni " + dateParts[2])
+                || text.equals("juli " + dateParts[2]) || text.equals("agustus " + dateParts[2]) || text.equals("september " + dateParts[2])
+                || text.equals("oktober " + dateParts[2]) || text.equals("november " + dateParts[2]) || text.equals("desember " + dateParts[2])){
+
+            periode = text;
+        }
+
+        System.out.println(periode);
+
+        if(text == null || "".equals(text)) {
+            updateData(realm.where(Setoran.class).findAll());
+        } else {
+            updateData(realm.where(Setoran.class)
+                    .equalTo("nomorKamar", text, Case.INSENSITIVE)
+                    .or()
+                    .equalTo("tipeKamar", tipeRumah, Case.INSENSITIVE)
+                    .or()
+                    .equalTo("nama", namaPenghuni, Case.INSENSITIVE)
+                    .or()
+                    .equalTo("periode", periode, Case.INSENSITIVE)
+                    .findAll());
+        }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new FilterSetoran(this);
+    }
+
+    private class FilterSetoran
+            extends Filter {
+        private final ListSetoranAdapter adapter;
+
+        private FilterSetoran(ListSetoranAdapter adapter) {
+            super();
+            this.adapter = adapter;
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            return new FilterResults();
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            adapter.filterResults(constraint.toString());
         }
     }
 }

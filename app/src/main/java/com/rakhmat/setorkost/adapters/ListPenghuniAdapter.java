@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.rakhmat.setorkost.activity.UbahPenghuniActivity;
@@ -22,18 +24,23 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Case;
+import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmRecyclerViewAdapter;
 
-public class ListPenghuniAdapter extends RecyclerView.Adapter<ListPenghuniAdapter.CategoryViewHolder>{
+public class ListPenghuniAdapter extends RealmRecyclerViewAdapter<Penghuni, ListPenghuniAdapter.CategoryViewHolder> implements Filterable {
     private Context context;
-    private List<Penghuni> penghuni;
     Realm realm;
     RealmHelper realmHelper;
+    String tipeRumah;
+    String namaPenghuni;
 
-    public ListPenghuniAdapter(Context context, List<Penghuni> penghuni ) {
+    public ListPenghuniAdapter(Context context, Realm realm, OrderedRealmCollection<Penghuni> data) {
+        super(data, true);
         this.context = context;
-        this.penghuni = penghuni;
+        this.realm = realm;
     }
 
     @NonNull
@@ -51,7 +58,7 @@ public class ListPenghuniAdapter extends RecyclerView.Adapter<ListPenghuniAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ListPenghuniAdapter.CategoryViewHolder holder, int position) {
-        final Penghuni model = penghuni.get(position);
+        final Penghuni model = getData().get(position);
 
         NumberFormat formatter = new DecimalFormat("#,###");
         double myNumber = Double.parseDouble(model.getHargaKamar());
@@ -85,26 +92,89 @@ public class ListPenghuniAdapter extends RecyclerView.Adapter<ListPenghuniAdapte
             }
         });
 
-        holder.buttonUbahPenghuni.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, UbahPenghuniActivity.class);
-                intent.putExtra("ID_PENGHUNI", model.getId());
-                intent.putExtra("NAMA", model.getNama());
-                intent.putExtra("UMUR", model.getUmur());
-                intent.putExtra("PEKERJAAN", model.getPekerjaan());
-                intent.putExtra("TIPE_RUMAH", model.getTipeKamar());
-                intent.putExtra("NOMOR_KAMAR", model.getNomorKamar());
-                intent.putExtra("TANGGAL_MASUK", model.getTanggalMasuk());
+        holder.buttonUbahPenghuni.setOnTouchListener(new View.OnTouchListener(){
+            long then = 0;
 
-                context.startActivity(intent);
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    then = (Long) System.currentTimeMillis();
+                }
+                else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if(((Long) System.currentTimeMillis() - then) > 2100){
+                        Intent intent = new Intent(context, UbahPenghuniActivity.class);
+                        intent.putExtra("ID_PENGHUNI", model.getId());
+                        intent.putExtra("NAMA", model.getNama());
+                        intent.putExtra("UMUR", model.getUmur());
+                        intent.putExtra("PEKERJAAN", model.getPekerjaan());
+                        intent.putExtra("TIPE_RUMAH", model.getTipeKamar());
+                        intent.putExtra("NOMOR_KAMAR", model.getNomorKamar());
+                        intent.putExtra("TANGGAL_MASUK", model.getTanggalMasuk());
+
+                        context.startActivity(intent);
+                        return true;
+                    }
+                }
+                return false;
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return penghuni.size();
+        return getData().size();
+    }
+
+    // filtering
+    public void filterResults(String text) {
+        text = text == null ? null : text.toLowerCase().trim();
+        if (text.equals("30/17c") || text.equals("31/17c") || text.equals("33/17c")){
+            tipeRumah = text;
+        }
+        char[] chars = text.toCharArray();
+
+        for (char c : chars){
+            if (Character.isLetter(c)){
+                namaPenghuni = text;
+            }
+        }
+
+        if(text == null || "".equals(text)) {
+            updateData(realm.where(Penghuni.class).findAll());
+        } else {
+            updateData(realm.where(Penghuni.class)
+                    .equalTo("nomorKamar", text, Case.INSENSITIVE)
+                    .or()
+                    .equalTo("tipeKamar", tipeRumah, Case.INSENSITIVE)
+                    .or()
+                    .equalTo("nama", namaPenghuni, Case.INSENSITIVE)
+                    .findAll());
+        }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new FilterPenghuni(this);
+    }
+
+    private class FilterPenghuni
+            extends Filter {
+        private final ListPenghuniAdapter adapter;
+
+        private FilterPenghuni(ListPenghuniAdapter adapter) {
+            super();
+            this.adapter = adapter;
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            return new FilterResults();
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            adapter.filterResults(constraint.toString());
+        }
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
